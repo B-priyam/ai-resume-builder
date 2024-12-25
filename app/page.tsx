@@ -7,10 +7,10 @@ export default function Home() {
   return (
     <div className="py-32 px-10 md:px-20 lg:px-28">
       <div className=" flex justify-center items-center flex-col">
-        <h1 className="text-4xl font-bold py-5">
+        <h1 className="text-4xl font-bold py-5 text-center">
           Build Your Resume <span className="text-primary">With AI</span>
         </h1>
-        <h3 className="text-xl font-normal text-gray-500 my-5">
+        <h3 className="text-xl font-normal text-gray-500 my-5 text-center">
           Effortlessly Craft a Standout Resume with Our AI-Powered Resume
           Builder
         </h3>
@@ -28,17 +28,17 @@ export default function Home() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 lg:gap-10">
-          <div className="h-40 w-60 bg-gray-100 shadow-lg p-5 flex items-center justify-center">
+          <div className="h-40 w-60 bg-white shadow-lg p-5 flex items-center justify-center">
             <h3 className="text-center font-bold">
               Enter Datails About Yourself
             </h3>
           </div>
-          <div className="h-40 w-60 bg-gray-100 shadow-lg p-5 flex items-center justify-center">
+          <div className="h-40 w-60 bg-white shadow-lg p-5 flex items-center justify-center">
             <h3 className="text-center font-bold">
               Choose Desired Template and theme color
             </h3>
           </div>
-          <div className="h-40 w-60 bg-gray-100 shadow-lg p-5 flex items-center justify-center">
+          <div className="h-40 w-60 bg-white shadow-lg p-5 flex items-center justify-center">
             <h3 className="text-center font-bold">
               Download and share your AI generated resume
             </h3>
