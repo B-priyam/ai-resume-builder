@@ -1,14 +1,15 @@
 import { EnableNextProps, ExperienceListProps } from "@/lib/types";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import TextEditor from "../TextEditor";
-import { LoaderCircle, X } from "lucide-react";
+import { Brain, LoaderCircle, X } from "lucide-react";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import globalApi from "@/lib/globalApi";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { OnSaveHelper } from "@/lib/helpers";
+import { getApiResponse } from "@/lib/GroqApi";
 
 const Experience = () => {
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
@@ -35,6 +36,48 @@ const Experience = () => {
       )
     );
   };
+
+  const generateAISummery = useCallback(
+    async (id: number) => {
+        let title = "",
+          companyName = "",
+          startDate = "",
+          endDate = ""
+
+        experienceList.map(
+          (item: ExperienceListProps) =>
+            item.id === id &&
+            (console.log(item),
+            (title = item.title!),
+            (companyName = item.companyName!),
+            (startDate = item.startDate!),
+            (endDate = item.endDate!))
+        );
+        if (!title || !companyName || !startDate || !endDate) {
+          toast("kindly fill title, company, start date, end date");
+          return;
+        }
+        const prompt = `Given the data: Position Title: ${title}, Company Name: ${companyName}, Start Date: ${startDate}, and End Date: ${endDate} (where 'Present' indicates ongoing work), calculate the duration in years and months. Write a concise, professional 20-30 words work summary focusing on achievements, responsibilities, and contributions. Format the response as:
+  {Position Title} at {Company Name} ({Experience Duration}): {Summary}.
+Do not include any introductory text or explanations.`;
+
+        const response = await getApiResponse(prompt);
+        setExperienceList(
+          experienceList.map((item) =>
+            item.id === id
+              ? { ...item, workSummary: response.split(":")[1] }
+              : item
+          )
+        );
+    },
+    [experienceList,setExperienceList]
+  );
+
+
+  useEffect(()=>{
+    setExperienceList(experienceList)
+  },[generateAISummery])
+
 
   const handleTextEditor = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -128,7 +171,7 @@ const Experience = () => {
                     defaultValue={item.title}
                     name="title"
                     id="title"
-                    onChange={(e) => handleChange(item.id!, e)}
+                    onChange={(e) =>handleChange(item.id!, e)}
                   />
                 </div>
                 <div className="mt-3 md:mt-0">
@@ -194,7 +237,7 @@ const Experience = () => {
                     />
                     <div className=" flex items-center gap-2">
                       <Input
-                        checked={item.endDate==="present"}
+                        checked={item.endDate === "present"}
                         className="h-4 w-4 ml-1 cursor-pointer"
                         value={"present"}
                         type="checkbox"
@@ -206,6 +249,18 @@ const Experience = () => {
                       </label>
                     </div>
                   </div>
+                </div>
+                <div className="col-span-2 flex justify-between items-center">
+                  <label className="text-sm pl-1">Summary</label>
+                  <Button
+                    className="flex gap-2 border-primary text-primary"
+                    variant={"outline"}
+                    size={"sm"}
+                    onClick={()=>generateAISummery(item.id)}
+                  >
+                    <Brain className="h-4 w-4" />
+                    Generate from Ai
+                  </Button>
                 </div>
                 <div className="col-span-2">
                   <TextEditor

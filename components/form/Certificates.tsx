@@ -135,7 +135,7 @@ const Certificates = () => {
             className="text-primary"
             onClick={addNewCertificate}
           >
-            + Add More Education
+            + Add More Certificates
           </Button>
           <Button
             disabled={loading}

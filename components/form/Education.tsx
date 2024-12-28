@@ -145,7 +145,7 @@ const Education = () => {
                   </label>
                   <Input
                     defaultValue={item.startDate}
-                    type="date"
+                    type="month"
                     id="startDate"
                     name="startDate"
                     onChange={(e) => handleChange(item.id, e)}
@@ -158,7 +158,7 @@ const Education = () => {
                   <div className="flex flex-col lg:flex-row">
                     <Input
                       defaultValue={item.endDate}
-                      type="date"
+                      type="month"
                       id="endDate"
                       name="endDate"
                       disabled={item.endDate === "present"}

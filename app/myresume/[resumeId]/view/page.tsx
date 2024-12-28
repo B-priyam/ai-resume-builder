@@ -1,14 +1,14 @@
 "use client"
 
-import ResumePreview from '@/components/ResumePreview'
+import ResumeTemplate1 from '@/components/ResumeTemplate-1'
 import ResumePreview3 from '@/components/ResumeTemplate-3'
-import ResumeTemplate4 from '@/components/ResumeTemplate-4'
 import { Button } from '@/components/ui/button'
 import { ResumeInfoContext } from '@/context/ResumeInfoContext'
 import globalApi from '@/lib/globalApi'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import {RWebShare} from "react-web-share"
+import ResumeTemplate2 from '@/components/ResumeTemplate-2'
 
 const page = () => {
     const params = useParams()
@@ -28,7 +28,7 @@ const page = () => {
     }
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
-      <div className='print:hidden'>
+      <div className="print:hidden">
         <div className="my-10 mx-10 md:mx-20 lg:mx-36">
           <h2 className="text-center my-2 font-medium text-2xl ">
             Congrats! Your Ai resume is Ready
@@ -48,8 +48,7 @@ const page = () => {
               data={{
                 text: "Hello Everyone This is my Resume, open the url to see.",
                 url:
-                  process.env.NEXT_PUBLIC_BASE_URL +
-                  "/myresume/" +
+                  "https://ai-resume-builder-dusky-two.vercel.app/myresume/" +
                   params.resumeId +
                   "/view",
                 title:
@@ -65,8 +64,9 @@ const page = () => {
         </div>
       </div>
       <div className="my-10 mx-10 md:mx-20 lg:mx-36 print:my-0 print:mx-0 ">
-        <ResumeTemplate4 />
-        {/* <ResumePreview /> */}
+        {resumeInfo?.template === "first" && <ResumeTemplate1 />}
+        {resumeInfo?.template === "second" && <ResumeTemplate2 />}
+        {resumeInfo?.template === "third" && <ResumePreview3 />}
       </div>
     </ResumeInfoContext.Provider>
   );

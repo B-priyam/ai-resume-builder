@@ -4,12 +4,10 @@ export const generateRandomColor = ()=>{
     const colors = [
       "indigo-500",
       "purple-500",
-      // "pink-500",
       "cyan-500",
       "blue-500",
       "indigo-500",
       "sky-500",
-      // "emerald-500",
     ];
 
     const direction = ["r","l","t","b"]
@@ -34,7 +32,17 @@ export const generateRandomColor = ()=>{
 }
 
 export const templates = [
-  "first",
-  "second",
-  "third"
+  {
+    name : "first",
+    image : "/project-template-2.png"
+  },
+  {
+    name : "second",
+    image : "/project-template-1.png"
+  },
+  {
+    name : "third",
+    image : "/project-template-3.png"
+  },
 ]
+

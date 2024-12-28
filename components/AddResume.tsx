@@ -49,7 +49,7 @@ const AddResume = () => {
   return (
     <div className="mt-10">
       <div
-        className="p-14 py-24 border items-center flex justify-center bg-secondary rounded-md h-[280px] hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dotted"
+        className="p-14 py-24 border-2 items-center flex justify-center bg-secondary rounded-md h-[280px] hover:scale-105 transition-all hover:shadow-md cursor-pointer"
         onClick={() => setOpenDialog(true)}
       >
         <Image 

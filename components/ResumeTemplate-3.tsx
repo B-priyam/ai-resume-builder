@@ -1,186 +1,277 @@
-import React from "react";
+"use client";
+
+import { ResumeInfoContext } from "@/context/ResumeInfoContext";
+import {
+  AchievementList,
+  CertificateList,
+  EducationalListProps,
+  ExperienceListProps,
+  ProjectList,
+  SkillProps,
+} from "@/lib/types";
+import { Github, HomeIcon, Linkedin, Mail, Phone, User, User2 } from "lucide-react";
+import React, { useContext } from "react";
 
 const ResumePreview3 = () => {
+  const { resumeInfo } = useContext(ResumeInfoContext);
+
+  const themeColor = resumeInfo?.themeColor || "#00274D";
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className=" flex items-center justify-center bg-gray-100">
       {/* Outer Container */}
       <div className="w-full max-w-4xl bg-white shadow-lg border border-gray-200">
         {/* Top Header with Name */}
-        <div className="bg-[#00274D] text-white p-6">
-          <h1 className="text-2xl font-bold">Alyce Schneider</h1>
-          <p className="text-lg font-medium">Junior Game Designer</p>
+        <div
+          className=" text-white p-6"
+          style={{ backgroundColor: themeColor }}
+        >
+          <h1 className="text-2xl font-bold">
+            {resumeInfo?.firstName} {resumeInfo?.lastName}
+          </h1>
+          <p className="text-lg font-medium">{resumeInfo?.jobTitle}</p>
         </div>
 
         {/* Content */}
-        <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="p-6 grid grid-cols-2 md:grid-cols-3 gap-6">
           {/* Left Column */}
           <div className="md:col-span-1">
             {/* Personal Info */}
             <div className="mb-6">
-              <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
+              <h2
+                className="text-sm font-semibold text-gray-800 uppercase tracking-wide"
+                style={{ color: themeColor }}
+              >
                 Personal Info
               </h2>
-              <p className="text-sm text-gray-600 mt-2">
-                Address: 2988 O'Wagger Lane, Seattle
+              <p className="text-sm text-gray-600 mt-2 flex">
+                <HomeIcon className="h-4 w-4" />: {resumeInfo?.address}
               </p>
-              <p className="text-sm text-gray-600 mt-1">Phone: 206-278-2720</p>
-              <p className="text-sm text-gray-600 mt-1">
-                E-mail: aschneider@email.com
+              <p className="text-sm text-gray-600 mt-1 flex">
+                <Phone className="h-4 w-4" />: {resumeInfo?.phone}
               </p>
-              <p className="text-sm text-gray-600 mt-1">
-                LinkedIn: linkedin.com/in/aschneider
+              <p className="text-sm text-gray-600 mt-1 flex">
+                <Mail className="h-4 w-4" />: {resumeInfo?.email}
               </p>
+              {resumeInfo?.linkedIn && (
+                <p className="text-sm text-gray-600 mt-1 flex">
+                  <Linkedin className="h-4 w-4" />: {resumeInfo?.linkedIn}
+                </p>
+              )}
+              {resumeInfo?.github && (
+                <a href={resumeInfo?.github} className="text-sm text-gray-600 mt-1 flex">
+                  <Github className="h-4 w-4" />: {resumeInfo?.github}
+                </a>
+              )}
+              {resumeInfo?.portfolio && (
+                <a href={resumeInfo?.portfolio} className="text-sm text-gray-600 mt-1 flex flex-wrap">
+                  <User2 className="h-4 w-4" />: <p>
+                    {resumeInfo?.portfolio}
+                    </p>
+                </a>
+              )}
             </div>
 
             {/* Skills */}
-            <div className="mb-6">
-              <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-                Skills
-              </h2>
-              <div className="mt-3 space-y-3">
-                {[
-                  { name: "Unity", level: 80 },
-                  { name: "C#", level: 80 },
-                  { name: "JavaScript", level: 60 },
-                  { name: "Problem-solving", level: 80 },
-                  { name: "Creativity", level: 100 },
-                  { name: "Critical Thinking", level: 100 },
-                  { name: "Analytical Skills", level: 80 },
-                ].map((skill, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <span className="text-sm text-gray-600">{skill.name}</span>
-                    <div className="w-2/3 bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-[#00274D] h-2 rounded-full"
-                        style={{ width: `${skill.level}%` }}
-                      ></div>
+            {resumeInfo?.skills?.length > 0 && (
+              <div className="mb-6">
+                <h2
+                  className="text-sm font-semibold uppercase tracking-wide"
+                  style={{ color: themeColor }}
+                >
+                  Skills
+                </h2>
+                <div className="mt-3 space-y-3">
+                  {resumeInfo?.skills?.map((skill: SkillProps) => (
+                    <div
+                      key={skill.id}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-sm text-gray-600">
+                        {skill.name}
+                      </span>
+                      <div className="w-1/2 bg-gray-200 rounded-full h-2 ">
+                        <div
+                          className=" h-2 rounded-full"
+                          style={{
+                            width: `${skill.rating! * 20}%`,
+                            backgroundColor: themeColor,
+                          }}
+                        ></div>
+                      </div>
                     </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Languages */}
+            {resumeInfo?.language?.length > 0 && (
+              <div>
+                <h2
+                  className="text-sm font-semibold text-gray-800 uppercase tracking-wide"
+                  style={{ color: themeColor }}
+                >
+                  Languages
+                </h2>
+                <p className="text-sm text-gray-600 mt-2">Spanish: C1</p>
+                <p className="text-sm text-gray-600 mt-1">Polish: A2</p>
+              </div>
+            )}
+
+            {/* Certifications */}
+            {resumeInfo?.certificate?.length > 0 && (
+              <div>
+                <h2
+                  className="text-sm font-semibold text-gray-800 uppercase tracking-wide mt-4"
+                  style={{ color: themeColor }}
+                >
+                  Certifications
+                </h2>
+                {resumeInfo?.certificate?.map((item: CertificateList) => (
+                  <div key={item.id}>
+                    <p className="text-sm text-gray-600 mt-2">
+                      {item.certificateName}
+                    </p>
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Languages */}
+            )}
+            {/* Achievements */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
-                Languages
+              <h2
+                className="text-sm font-semibold text-gray-800 uppercase tracking-wide mt-4"
+                style={{ color: themeColor }}
+              >
+                Achievements
               </h2>
-              <p className="text-sm text-gray-600 mt-2">Spanish: C1</p>
-              <p className="text-sm text-gray-600 mt-1">Polish: A2</p>
+              {
+                resumeInfo?.achievement?.map((item:AchievementList)=>(
+                  <div key={item.id}>
+                  <li className="text-sm text-gray-600 mt-2">{item.achievementDescription}</li>
+                  </div>
+                ))
+              }
             </div>
           </div>
 
           {/* Right Column */}
           <div className="md:col-span-2">
             {/* Summary */}
+            
             <div className="mb-6">
-              <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
+              <h2
+                className="text-sm font-semibold text-gray-800 uppercase tracking-wide"
+                style={{ color: themeColor }}
+              >
                 Summary
               </h2>
               <p className="text-sm text-gray-600 mt-2">
-                Goal-oriented game designer with 2+ years of experience.
-                Contributed to the design, combat balance, and in-game mechanics
-                of a highly successful AAA game. Designed 80+ RPG levels and
-                configured 25+ quests at Game Gen. Life-long fan of HOMM3 and
-                Fallout. Seeking to use storytelling skills and technical
-                expertise to deliver immersive, innovative UX solutions at
-                Subfire Interactive.
+                {resumeInfo?.summery}
               </p>
             </div>
 
-            {/* Experience */}
+            {/* Projects */}
+            {
+              resumeInfo?.project?.length > 0 &&
             <div className="mb-6">
-              <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
+              <h2
+                className="text-sm font-semibold text-gray-800 uppercase tracking-wide"
+                style={{ color: themeColor }}
+              >
+                Professional Projects
+              </h2>
+              <div className="mt-3">
+                {/* Job 1 */}
+                <div className="mb-4">
+                  {resumeInfo?.project?.map(
+                    (item: ProjectList, index: number) => (
+                      <div key={item.id}>
+                        <h3 className="text-sm font-semibold text-gray-700 -mb-1">
+                          {item.projectName}
+                        </h3>
+                        <a
+                          href={item.projectUrl}
+                          className="text-sm text-gray-600"
+                        >
+                          {item.projectUrl}
+                        </a>
+                        <div className="list-disc text-sm text-gray-600">
+                          {item.projectDescription}
+                        </div>
+                        {index < resumeInfo?.project?.length - 1 && (
+                          <hr className="my-2" />
+                        )}
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+            }
+
+            {/* Experience */}
+            {
+              resumeInfo?.certificate?.length > 0 &&
+            <div className="mb-6">
+              <h2
+                className="text-sm font-semibold text-gray-800 uppercase tracking-wide"
+                style={{ color: themeColor }}
+              >
                 Professional Experience
               </h2>
               <div className="mt-3">
                 {/* Job 1 */}
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-gray-700">
-                    Junior Game Designer
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Game Gem | 2019-02 - Present
-                  </p>
-                  <ul className="list-disc pl-5 mt-2 text-sm text-gray-600">
-                    <li>
-                      Configured combat balance for 1 open-world survival RPGs,
-                      running over 180 simulations across 2 levels of
-                      difficulty.
-                    </li>
-                    <li>
-                      Introduced new mechanics to the game, including
-                      biome-dependent temperature debuffs and enemy resistances
-                      to selected attack types.
-                    </li>
-                    <li>
-                      Collaborated with other teams within the Design &
-                      Development department to ensure a cohesive, immersive
-                      player experience.
-                    </li>
-                  </ul>
-                </div>
-                {/* Job 2 */}
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-700">
-                    Level Designer
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Cute Ant Productions | 2018-01 - 2019-01
-                  </p>
-                  <ul className="list-disc pl-5 mt-2 text-sm text-gray-600">
-                    <li>
-                      Placed loot, enemies, NPCs, and other elements in over 80
-                      levels across 3 RPGs.
-                    </li>
-                    <li>
-                      Configured parameters for 25+ quests, including over 18
-                      main story missions.
-                    </li>
-                    <li>
-                      Designed 15+ NPCs, complete with interactions featuring
-                      story-altering dialogue choices.
-                    </li>
-                  </ul>
+                  {resumeInfo?.experience?.map(
+                    (item: ExperienceListProps, index: number) => (
+                      <div key={item.id}>
+                        <h3 className="text-sm font-semibold text-gray-700">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          {`${item.companyName}  ${
+                            item.startDate ? " | " + item.startDate : ""
+                          } ${item.endDate ? " - " + item.endDate : ""}`}
+                        </p>
+                        <div className="list-disc text-sm text-gray-600">
+                          {item.workSummary}
+                        </div>
+                        {index < resumeInfo?.experience?.length - 1 && (
+                          <hr className="my-2" />
+                        )}
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             </div>
+            }
 
             {/* Education */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wide">
+              <h2
+                className="text-sm font-semibold text-gray-800 uppercase tracking-wide"
+                style={{ color: themeColor }}
+              >
                 Education
               </h2>
               <div className="mt-3 space-y-4">
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-700">
-                    BSc in Simulation Science, Games, and Animation
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Embry-Riddle Aeronautical University | 2014 - 2017
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-700">
-                    Unity Game Development Certification
-                  </h3>
-                  <p className="text-sm text-gray-600">2018</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-700">
-                    Unity Certified 3D Artist Specialization
-                  </h3>
-                  <p className="text-sm text-gray-600">2017</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-700">
-                    Computer Science for Game Development
-                  </h3>
-                  <p className="text-sm text-gray-600">2017</p>
-                </div>
+                {resumeInfo?.education?.map(
+                  (item: EducationalListProps, index: number) => (
+                    <div key={index}>
+                      <h3 className="text-sm font-semibold text-gray-700">
+                        {`${item.degree} ${
+                          item?.major ? " in " + item.major : ""
+                        }`}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {`${item.universityName} ${
+                          item.startDate ? " | " + item.startDate : ""
+                        } ${item.endDate ? " - " + item.endDate : ""}`}
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>

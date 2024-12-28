@@ -32,6 +32,7 @@ const PersonalDetails = () => {
     e.preventDefault();
 
     const data = { data: formData };
+    console.log(data)
     const res = await globalApi.updateResumeDeatils(params?.resumeId,data)
     toast("Details Updated")
     setLoading(false)

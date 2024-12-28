@@ -1,14 +1,15 @@
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import globalApi from "@/lib/globalApi";
 import { ProjectList } from "@/lib/types";
-import { LoaderCircle, X } from "lucide-react";
+import { AudioWaveform, LoaderCircle, X } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { OnSaveHelper } from "@/lib/helpers";
+import { getApiResponse } from "@/lib/GroqApi";
 
 const Projects = () => {
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
@@ -71,6 +72,36 @@ const Projects = () => {
   const removeProjects = (id: number) => {
     setProjectList(projectList.filter((e) => e.id != id));
   };
+
+  const enhanceWithAI = useCallback( async(id:number)=>{
+    let projectDescription = "",
+      title = "";
+
+    projectList.map(
+      (item: ProjectList) =>
+        item.id === id &&
+        ((projectDescription = item.projectDescription),
+        (title = item.projectName))
+    );
+    if (!projectDescription || !title) {
+      toast(
+        "kindly enter project name and some description in description box to enhance it"
+      );
+      return;
+    }
+    const prompt = `Enhance the provided project description using provided data and project name to improve clarity, professionalism, and detail while remaining concise and within 20-30 words. Ensure the response contains only the enhanced description without any introductory or additional phrases like 'Here is the refined project description.' and without quotation marks.
+
+Provided Data: ${projectDescription} , project name: ${title}`;
+
+    const response = await getApiResponse(prompt);
+    setProjectList(
+      projectList.map((item) =>
+        item.id === id ? { ...item, projectDescription: response } : item
+      )
+    );
+
+  },[projectList])
+
   return (
     <div>
       <div className="p-5 shadow-lg rounded-lg border-t-4 border-primary mt-10">
@@ -114,9 +145,17 @@ const Projects = () => {
               />
             </div>
             <div className="col-span-2 mt-3 md:mt-0">
-              <label className="text-sm pl-1" htmlFor="projectDescription">
-                Project Description
-              </label>
+              <div className="flex justify-between items-center py-0">
+                <label className="text-sm pl-1" htmlFor="projectDescription">
+                  Project Description
+                </label>
+                <div>
+                  <Button onClick={()=>enhanceWithAI(item.id)} variant={"outline"} className="border border-primary mb-1">
+                    <AudioWaveform className="text-primary"/>
+                    Enhance with AI
+                  </Button>
+                </div>
+              </div>
               <Textarea
                 placeholder="explain in short about your project"
                 defaultValue={item.projectDescription}
@@ -133,7 +172,7 @@ const Projects = () => {
             className="text-primary"
             onClick={addNewProject}
           >
-            + Add More Button
+            + Add More Projects
           </Button>
           <Button
             disabled={loading}
