@@ -37,7 +37,7 @@ const page = () => {
             Now your Resume is ready to download and you can share unique url
             with your friends.
           </p>
-          <div className="flex justify-between mx-20 md:mx-44 my-10 w-full">
+          <div className="flex justify-between mx-20 md:mx-44 my-10 gap-5">
             <Button
               onClick={handleDownload}
               className="bg-primary hover:bg-purple-600"
