@@ -3,7 +3,7 @@ import { resumeType } from "./types";
 
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:1337/api/",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL+ "/api/",
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_KEY}`,
