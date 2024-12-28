@@ -37,29 +37,32 @@ const page = () => {
             Now your Resume is ready to download and you can share unique url
             with your friends.
           </p>
-          <div className="flex justify-between mx-20 md:mx-44 my-10 gap-5">
+          <div className="flex justify-between md:mx-44 my-10 w-full items-start">
             <Button
               onClick={handleDownload}
               className="bg-primary hover:bg-purple-600"
             >
               Download
             </Button>
+            <div>
+
             <RWebShare
               data={{
                 text: "Hello Everyone This is my Resume, open the url to see.",
                 url:
-                  "https://ai-resume-builder-dusky-two.vercel.app/myresume/" +
+                "https://ai-resume-builder-dusky-two.vercel.app/myresume/" +
                   params.resumeId +
                   "/view",
-                title:
+                  title:
                   resumeInfo?.firstName +
                   " " +
                   resumeInfo?.lastName +
                   " resume",
-              }}
-            >
+                }}
+                >
               <Button className="bg-primary hover:bg-purple-600">Share</Button>
             </RWebShare>
+              </div>
           </div>
         </div>
       </div>

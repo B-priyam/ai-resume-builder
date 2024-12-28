@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useContext, useEffect, useState } from "react";
-import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
@@ -15,6 +15,7 @@ import { AchievementList, CertificateList, EducationalListProps, ExperienceListP
 import { Button } from "./ui/button";
 import globalApi from "@/lib/globalApi";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 const SortableItem = ({ id, children }: any) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -42,6 +43,16 @@ const ResumeTemplate1 = () => {
   const [enableSaveLayoutButton, setenableSaveLayoutButton] = useState(false)
 
   const themeColor = resumeInfo?.themeColor || "#00274D";
+
+  const sensors = useSensors(
+    useSensor(MouseSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250, // Delay in ms to prevent accidental drags
+        tolerance: 5, // Movement in pixels to start dragging
+      },
+    })
+  );
 
   const handleDragEnd = async (event: any) => {
     const { active, over } = event;
@@ -80,6 +91,7 @@ const ResumeTemplate1 = () => {
       setLoading(false)
       if(resp){
         setenableSaveLayoutButton(false)
+        toast("layout updated")
       }
     };
 
@@ -354,6 +366,7 @@ const ResumeTemplate1 = () => {
         <DndContext
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
+          sensors={sensors}
         >
           <SortableContext
             items={sections}

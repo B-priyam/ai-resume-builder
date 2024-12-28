@@ -35,7 +35,6 @@ const ResumeCard = ({
   const [openAlert, setOpenAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log(themeColor)
 
   const onDelete = async () => {
     setLoading(true);

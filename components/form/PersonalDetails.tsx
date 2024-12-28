@@ -72,7 +72,6 @@ const PersonalDetails = () => {
               placeholder="eg: Full stack developer"
               name="jobTitle"
               id="jobTitle"
-              required
               defaultValue={resumeInfo?.jobTitle}
               onChange={handleInputChange}
             />
@@ -83,7 +82,6 @@ const PersonalDetails = () => {
               placeholder="eg: mumbai,maharashtra"
               name="address"
               id="address"
-              required
               defaultValue={resumeInfo?.address}
               onChange={handleInputChange}
             />
@@ -94,7 +92,6 @@ const PersonalDetails = () => {
               placeholder="eg: +91 1234567891"
               name="phone"
               id="phone"
-              required
               defaultValue={resumeInfo?.phone}
               onChange={handleInputChange}
             />
@@ -105,7 +102,6 @@ const PersonalDetails = () => {
               placeholder="eg: mymail@dummy.com"
               name="email"
               id="email"
-              required
               defaultValue={resumeInfo?.email}
               onChange={handleInputChange}
             />
@@ -116,7 +112,6 @@ const PersonalDetails = () => {
               placeholder="eg: https://github.com/your-name"
               name="github"
               id="github"
-              required
               defaultValue={resumeInfo?.github}
               onChange={handleInputChange}
             />
@@ -127,7 +122,6 @@ const PersonalDetails = () => {
               placeholder="eg: www.linkedin.com/in/your-name"
               name="linkedIn"
               id="linkedIn"
-              required
               defaultValue={resumeInfo?.linkedIn}
               onChange={handleInputChange}
             />
@@ -138,7 +132,6 @@ const PersonalDetails = () => {
               placeholder="eg: https://my-portfolio.com"
               name="portfolio"
               id="portfolio"
-              required
               defaultValue={resumeInfo?.portfolio}
               onChange={handleInputChange}
             />
